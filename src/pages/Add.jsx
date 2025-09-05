@@ -39,7 +39,7 @@ function Add() {
           marginRight:'1rem'
         }}
       >
-        <Paper elevation={3} sx={{ width: 420, height: 680 }} className='d-flex justify-content-center align-items-center flex-column'>
+        <Paper elevation={3} sx={{ width: 460, height: 680 }} className='d-flex justify-content-center align-items-center flex-column'>
           <h5 className='heading fw-semibold pb-4'>Add New Application</h5>
           <TextField id="outlined-basic" label="Company Name" variant="outlined" className='textfield-style pb-3' />
           <TextField id="outlined-basic" label="Job Role" variant="outlined" className='textfield-style pb-3' />
