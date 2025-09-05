@@ -46,3 +46,86 @@
     height: 100vh;
 }
 }
+
+/* dashboard */
+
+.dashboard-card {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease-in-out;
+
+}
+
+.dashboard-card:hover {
+  transform: scale(1.05);
+}
+
+.dashboard-icon {
+  font-size: 45px;
+}
+
+.total-icon {
+  color: #343536;
+}
+
+.applied-icon {
+  color: #757575;
+}
+
+.interview-icon {
+  color: #2643c5;
+}
+
+.hired-icon {
+  color: #40ce33;
+}
+
+.rejected-icon {
+  color: #e53935;
+}
+
+.dashboard-title {
+  font-size: 16px;
+  color: #4b5156;
+  font-weight: bold;
+}
+
+.dashboard-value {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* landing page */
+
+#section1-left{
+    padding-left: 2rem;
+    margin-top: 2rem;
+}
+#section1-head{
+    font-family: var(--heading);
+    line-height: 4.5rem;
+    letter-spacing: 3px;
+    font-size: 45px;
+    font-weight: 600;
+   
+}
+
+#section1-p{
+    font-family: var(--body-text);
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 2px;
+
+}
+#learn-btn{
+    border: 2px solid #0d6efd;
+ 
+}
+
+@media (maxWidth:'768px'){
+    
+}

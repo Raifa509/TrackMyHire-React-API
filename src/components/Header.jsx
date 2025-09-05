@@ -31,7 +31,6 @@ function Header() {
           { text: "Dashboard", icon: <DashboardIcon /> ,path:'/dashboard'},
           { text: "Applications", icon: <WorkIcon /> ,path:'/applications'},
           { text: "Add", icon: <AddCircleIcon />,path:'/add' },
-          { text: "About", icon: <InfoIcon />,path:'/#about' },
         ].map(({ text, icon ,path}) => (
           <ListItem key={text} disablePadding>
             <ListItemButton component={Link} to={path}>
@@ -56,10 +55,10 @@ function Header() {
           {/* Full menu for desktop */}
           <Box sx={{ display: { xs: "none", md: "block" } }}>
             <ul className="list-unstyled d-flex mb-0">
+              <li className="li-style"><Link to="/">Home</Link></li>
               <li className="li-style"><Link to="/dashboard">Dashboard</Link></li>
               <li className="li-style"><Link to="/applications">Applications</Link></li>
               <li className="li-style"><Link to="/add">Add</Link></li>
-              <li className="li-style"><Link to="#about">About</Link></li>
             </ul>
 
           </Box>
