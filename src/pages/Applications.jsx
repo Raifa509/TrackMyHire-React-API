@@ -11,9 +11,17 @@ import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
-import { Height } from '@mui/icons-material';
+import Tooltip from '@mui/material/Tooltip';
+import { deleteApplicationAPI, getApplicationListAPI } from '../Services/allAPI';
+import Edit from "../components/Edit";
 
-function Applications() {
+function Applications({setApplicationList,applicationList}) {
+
+
+  const [openEdit, setOpenEdit] = React.useState(false);
+  const [selectedApplication, setSelectedApplication] = React.useState(null);
+
+
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: "#3d3f40ff",
@@ -39,21 +47,28 @@ function Applications() {
     },
   }));
 
-  function createData(company, role, date, status, source, workType, notes) {
-    return { company, role, date, status, source, workType, notes };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteApplicationAPI(id);
+      const response = await getApplicationListAPI();
+    setApplicationList(response.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const refreshApplications = async () => {
+  try {
+    const response = await getApplicationListAPI();
+    setApplicationList(response.data);
+  } catch (err) {
+    console.log(err);
   }
-
-  const rows = [
-    createData("Google", "UI/UX", "12/05/2025", "Applied", "Indeed", "Remote", ""),
-    createData("Google", "UI/UX", "12/05/2025", "Rejected", "Indeed", "Remote", ""),
-
-    createData("Google", "UI/UX", "12/05/2025", "Hired", "Indeed", "Remote", ""),
-
-    createData("Amazon", "Frontend Dev", "14/05/2025", "Interview", "LinkedIn", "Hybrid", "Prepare React"),
-  ];
+};
 
   return (
-    <Box sx={{ margin: "5rem auto", maxWidth: "80rem" }}>
+    <Box sx={{ margin: "5rem auto", maxWidth: "80rem",minHeight:'100vh'}}>
       <TableContainer component={Paper} sx={{ borderRadius: 2 }}>
         <Table size="small" aria-label="applications table">
           <TableHead>
@@ -61,7 +76,6 @@ function Applications() {
               <StyledTableCell>Company</StyledTableCell>
               <StyledTableCell align="right">Job Role</StyledTableCell>
               <StyledTableCell align="right">Applied Date</StyledTableCell>
-
               <StyledTableCell align="right">Source</StyledTableCell>
               <StyledTableCell align="right">Work Type</StyledTableCell>
               <StyledTableCell align="right">Status</StyledTableCell>
@@ -70,10 +84,10 @@ function Applications() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row, i) => (
+            {applicationList.map((row, i) => (
               <StyledTableRow key={i}>
                 <StyledTableCell>{row.company}</StyledTableCell>
-                <StyledTableCell align="right">{row.role}</StyledTableCell>
+                <StyledTableCell align="right">{row.jobRole}</StyledTableCell>
                 <StyledTableCell align="right">{row.date}</StyledTableCell>
 
                 <StyledTableCell align="right">{row.source}</StyledTableCell>
@@ -102,13 +116,37 @@ function Applications() {
                 </StyledTableCell>
 
                 <StyledTableCell align="right">{row.notes}</StyledTableCell>
+
                 <StyledTableCell align="center">
-                  <IconButton size="small" color="primary" className='me-1'>
-                    <EditIcon fontSize="small" />
-                  </IconButton>
-                  <IconButton size="small" color="error">
-                    <DeleteIcon fontSize="small" />
-                  </IconButton>
+
+                  <Tooltip title="Edit">
+                    <IconButton
+                      size="small"
+                      color="primary"
+                      className='me-1'
+                      onClick={() => {
+                        setSelectedApplication(row); 
+                        setOpenEdit(true); 
+                      }}
+                    >
+                      <EditIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+
+                  <Edit
+                    open={openEdit}
+                    handleClose={() => setOpenEdit(false)}
+                    applicationData={selectedApplication}
+                    refreshApplications={refreshApplications}  
+                  />
+
+
+                  <Tooltip title="Delete">
+                    <IconButton size="small" color="error" onClick={() => { handleDelete(row?.id) }}>
+                      <DeleteIcon fontSize="small" />
+                    </IconButton>
+                  </Tooltip>
+
                 </StyledTableCell>
               </StyledTableRow>
             ))}

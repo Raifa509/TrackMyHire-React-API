@@ -15,7 +15,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import WorkIcon from "@mui/icons-material/Work";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import InfoIcon from "@mui/icons-material/Info";
+import HomeIcon from '@mui/icons-material/Home';
 import { Link } from "react-router-dom";
 
 function Header() {
@@ -28,6 +28,7 @@ function Header() {
     <Box sx={{ width: 200 }} role="presentation" onClick={toggleDrawer(false)}>
       <List>
         {[
+           { text: "Home", icon: <HomeIcon />,path:'/' },
           { text: "Dashboard", icon: <DashboardIcon /> ,path:'/dashboard'},
           { text: "Applications", icon: <WorkIcon /> ,path:'/applications'},
           { text: "Add", icon: <AddCircleIcon />,path:'/add' },

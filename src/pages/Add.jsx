@@ -8,10 +8,11 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { IoIosAddCircle } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
-import { addApplicationAPI } from '../Services/allAPI';
+import { addApplicationAPI, getApplicationListAPI } from '../Services/allAPI';
 import swal from 'sweetalert';
 
-function Add() {
+
+function Add({setApplicationList}) {
 
   const [userInput, setUserInput] = useState({
     company: '',
@@ -23,34 +24,45 @@ function Add() {
     notes: ''
   })
 
-  const handleAddApplication=async()=>{
+  const handleAddApplication = async () => {
     // alert('API called')
-    const {company,jobRole,date,status,source,workType}=userInput
-    if(company && jobRole && date && status && source && workType)
-    {
-      try{
-        const result=await addApplicationAPI(userInput)
+    const { company, jobRole, date, status, source, workType } = userInput
+    if (company && jobRole && date && status && source && workType) {
+      try {
+        const result = await addApplicationAPI(userInput)
+        // console.log(result)     
         swal("Good job!", "Your job application has been added.", "success");
+        setUserInput({
+          company: '',
+          jobRole: '',
+          date: '',
+          status: '',
+          source: '',
+          workType: '',
+          notes: ''
+        });
+        const response=await getApplicationListAPI();
+        setApplicationList(response.data)
 
 
-      }catch(err){
+      } catch (err) {
         console.log(err);
-        
+
       }
-    }else{
-     swal("Please fill in all required fields.");
+    } else {
+      swal("Please fill in all required fields.");
     }
   }
 
-  const handleCancel=()=>{
+  const handleCancel = () => {
     setUserInput({
       company: '',
-    jobRole: '',
-    date: '',
-    status: '',
-    source: '',
-    workType: '',
-    notes: ''
+      jobRole: '',
+      date: '',
+      status: '',
+      source: '',
+      workType: '',
+      notes: ''
     })
   }
   return (
@@ -62,7 +74,8 @@ function Add() {
           marginTop: '3.5rem',
           minHeight: "95vh",
           marginLeft: '1rem',
-          marginRight: '1rem'
+          marginRight: '1rem',
+          marginBottom:'8rem'
         }}
       >
         <Paper elevation={3} sx={{ width: 460, height: 680 }} className='d-flex justify-content-center align-items-center flex-column'>
@@ -76,6 +89,7 @@ function Add() {
             onChange={e => setUserInput({
               ...userInput, jobRole: e.target.value
             })} />
+            
           <TextField
             id="date"
             value={userInput.date}
@@ -136,8 +150,8 @@ function Add() {
               id="work-type-select"
               value={userInput.workType}
               onChange={e => setUserInput({
-              ...userInput, workType: e.target.value
-            })}
+                ...userInput, workType: e.target.value
+              })}
               label="Work Type"
             >
               <MenuItem value="Remote">Remote</MenuItem>
@@ -160,8 +174,6 @@ function Add() {
 
           <div className='d-flex gap-4 mt-3'>
             <button className="btn btn-success d-flex align-items-center fw-semibold px-4" onClick={handleAddApplication}>< IoIosAddCircle className='me-2 fs-5' />Add</button>
-            
-            
             <button className="btn btn-danger d-flex align-items-center fw-semibold" onClick={handleCancel}><MdCancel className='me-2 fs-5' />Cancel</button>
           </div>
 
